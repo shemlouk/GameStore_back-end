@@ -1,5 +1,5 @@
-import { productSchema } from "../schemas";
-import { PRODUCTS } from "../database";
+import { productSchema } from "../schemas/index.js";
+import { PRODUCTS } from "../database.js";
 
 export const create = (req, res) => {
   const { error } = productSchema.validate(req.body, { abortEarly: false });
