@@ -2,7 +2,14 @@ import Joi from "joi";
 import bcrypt from "bcrypt";
 import { USERS, CARTS, PURCHASES, SESSIONS } from "./database.js";
 import dayjs from "dayjs";
-import { UUID } from "bson";
+import { v4 as uuid } from "uuid";
+
+const authenticationToken = (req, res, next) => {
+  const token = req.headers?.authorization;
+  const tokenT = token.replace("Bearer", "");
+
+  const tokenFind = SESSIONS.findOne({ token: tokenT });
+};
 
 export const cadastro = async (req, res) => {
   let img = "";
@@ -59,6 +66,7 @@ export const cadastro = async (req, res) => {
 };
 
 export const login = async (req, res) => {
+  const token = uuid();
   const login = req.body;
   const loginJoy = Joi.object({
     email: Joi.string().email().required(),
@@ -82,17 +90,17 @@ export const login = async (req, res) => {
       if (loggedToken) SESSIONS.deleteOne({ user_id: userDb._id });
 
       const userObject = {
-        token: userDb._id,
+        token: token,
         name: userDb.name,
         email: userDb.email,
         saldo: accountObject.saldo,
       };
       SESSIONS.insertOne({
         user_id: userDb._id,
-        token: UUID.token(),
+        token: token,
         updated_at: dayjs.format("DD/MM"),
       });
-      res.status(200).send(userObject);
+      return res.status(200).send(userObject);
     }
     return res.sendStatus(404);
   } else {
