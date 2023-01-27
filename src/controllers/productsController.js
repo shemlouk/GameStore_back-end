@@ -12,3 +12,12 @@ export const create = (req, res) => {
     res.status(500).send(err);
   }
 };
+
+export const read = async (req, res) => {
+  try {
+    const products = await PRODUCTS.find().toArray();
+    res.send(products);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
