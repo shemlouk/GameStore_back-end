@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import Products from "./routes/Products.js";
-// import { cadastro, login, updateImg } from "./routes.js";
+import { cadastro, login, updateImg } from "./routes.js";
 
 dotenv.config();
 
@@ -12,9 +12,9 @@ app.use(express.json());
 app.use(cors());
 app.use(Products);
 
-// app.post(`${process.env.MONGO_URI}/sign-up`, cadastro);
-// app.post(`${process.env.MONGO_URI}/login`, login);
-// app.post(`${process.env.MONGO_URI}/update-img`, updateImg);
+app.post(`${process.env.MONGO_URI}/sign-up`, cadastro);
+app.post(`${process.env.MONGO_URI}/login`, login);
+app.post(`${process.env.MONGO_URI}/update-img`, updateImg);
 
 app.listen(process.env.PORT, () => {
   console.log("Server is running");
