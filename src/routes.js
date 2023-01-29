@@ -25,7 +25,6 @@ export const cadastro = async (req, res) => {
     email: Joi.string().min(1).email().required(),
     password: Joi.string().min(3).required(),
     img: Joi.string().uri(),
-
   });
   const validation = userJoi.validate(user);
   if (validation.error) {
@@ -99,7 +98,7 @@ export const login = async (req, res) => {
       await SESSIONS.insertOne({
         user_id: userDb._id,
         token: token,
-        createdtime: dayjs().format("DD/MM"),
+        createdtime: Date.now(),
       });
       return res.status(200).send(userObject);
     }
@@ -121,5 +120,3 @@ export const updateImg = async (req, res) => {
   }
   return res.status(404).send("Token não encontrado!");
 };
-
-export const logout = async (req, res) => {};
