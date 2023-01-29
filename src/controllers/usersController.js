@@ -95,9 +95,9 @@ export const login = async (req, res) => {
 };
 
 export const updateImg = async (req, res) => {
-  const userId = res.locals.userId;
+  const { userId } = res.locals;
   try {
-    await USERS.updateOne({ _id: userId }, { img: req.body?.img });
+    await USERS.updateOne({ _id: userId }, { $set: { img: req.body?.img } });
     res.status(200).send(req.body?.img);
   } catch (err) {
     return res.status(500).json(err);
