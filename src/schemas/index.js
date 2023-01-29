@@ -10,3 +10,15 @@ export const productSchema = Joi.object({
 })
   .options({ presence: "required" })
   .required();
+
+export const userSchema = Joi.object({
+  name: Joi.string().min(1).required(),
+  email: Joi.string().min(1).email().required(),
+  password: Joi.string().min(3).required(),
+  img: Joi.string(),
+});
+
+export const loginSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
+});
