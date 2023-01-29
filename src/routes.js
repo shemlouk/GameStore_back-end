@@ -113,10 +113,10 @@ export const updateImg = async (req, res) => {
   const token = req.headers?.authorization;
   const tokenT = token.replace("Bearer", "");
 
-  const tokenFind = SESSIONS.findOne({ token: tokenT });
+  const tokenFind = await SESSIONS.findOne({ token: tokenT });
 
   if (tokenFind) {
-    USERS.updateOne({ _id: tokenFind.user_id }, { img: req.body?.img });
+    await USERS.updateOne({ _id: tokenFind.user_id }, { img: req.body?.img });
     res.sendStatus(200);
   }
   return res.status(404).send("Token não encontrado!");
