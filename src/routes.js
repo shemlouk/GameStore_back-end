@@ -44,7 +44,7 @@ export const cadastro = async (req, res) => {
 
   const hashPass = await bcrypt.hash(req.body?.password, 8);
 
-  const userC = USERS.insertOne({
+  const userC = await USERS.insertOne({
     name: req.body?.name,
     email: req.body?.email.toLowerCase(),
     password: hashPass,
