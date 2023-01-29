@@ -88,7 +88,7 @@ export const login = async (req, res) => {
       const accountObject = await USERS.findOne({ user_id: userDb._id });
       const loggedToken = await SESSIONS.findOne({ user_id: userDb._id });
 
-      if (loggedToken) SESSIONS.deleteOne({ user_id: userDb._id });
+      if (loggedToken) await SESSIONS.deleteOne({ user_id: userDb._id });
 
       const userObject = {
         token: token,
@@ -96,7 +96,7 @@ export const login = async (req, res) => {
         email: userDb.email,
         saldo: accountObject.saldo,
       };
-      SESSIONS.insertOne({
+      await SESSIONS.insertOne({
         user_id: userDb._id,
         token: token,
         updated_at: dayjs.format("DD/MM"),
