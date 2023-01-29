@@ -24,6 +24,7 @@ export const cadastro = async (req, res) => {
     name: Joi.string().min(1).required(),
     email: Joi.string().min(1).email().required(),
     password: Joi.string().min(3).required(),
+    img: Joi.string().uri()
   });
   const validation = userJoi.validate(user);
   if (validation.error) {
