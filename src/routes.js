@@ -94,12 +94,11 @@ export const login = async (req, res) => {
         token: token,
         name: userDb.name,
         email: userDb.email,
-        saldo: accountObject.saldo,
       };
       await SESSIONS.insertOne({
         user_id: userDb._id,
         token: token,
-        updated_at: dayjs.format("DD/MM"),
+        createdtime: dayjs().format("DD/MM"),
       });
       return res.status(200).send(userObject);
     }
