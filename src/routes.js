@@ -24,7 +24,8 @@ export const cadastro = async (req, res) => {
     name: Joi.string().min(1).required(),
     email: Joi.string().min(1).email().required(),
     password: Joi.string().min(3).required(),
-    img: Joi.string().uri()
+    img: Joi.string().uri(),
+
   });
   const validation = userJoi.validate(user);
   if (validation.error) {
@@ -33,9 +34,9 @@ export const cadastro = async (req, res) => {
   // fim validação Joi
 
   // inicio validação usuario existe
-  const usuarioExiste = await db
-    .collection("users")
-    .findOne({ email: req.body?.email.toLowerCase() });
+  const usuarioExiste = await USERS.findOne({
+    email: req.body?.email.toLowerCase(),
+  });
 
   if (usuarioExiste) {
     return res.status(409).send("usuario já registrado!");
