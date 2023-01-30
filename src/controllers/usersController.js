@@ -103,3 +103,18 @@ export const updateImg = async (req, res) => {
     return res.status(500).json(err);
   }
 };
+
+export const logout = async (req, res) => {
+  const { authorization } = req.headers;
+
+  const token = authorization?.replace("Bearer ", "");
+
+  if (!token) return res.sendStatus(401);
+
+  try {
+    await SESSIONS.deleteOne({ token });
+    res.sendStatus(200);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+}
