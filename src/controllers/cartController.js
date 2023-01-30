@@ -2,8 +2,13 @@ import { CARTS } from "../database.js";
 
 export const add = async (req, res) => {
   const { id } = req.body;
+  const userId = res.locals.userId;
   try {
-    CARTS.updateOne({ userId: res.locals.userId }, { $push: { products: id } });
+    const duplicate = await CARTS.findOne({
+      $and: [{ userId }, { products: { $in: [id] } }],
+    });
+    if (duplicate) return res.sendStatus(409);
+    CARTS.updateOne({ userId }, { $push: { products: id } });
     res.sendStatus(200);
   } catch (err) {
     res.status(500).json(err);
